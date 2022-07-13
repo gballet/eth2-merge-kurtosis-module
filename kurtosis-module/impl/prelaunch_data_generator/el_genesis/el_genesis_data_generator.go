@@ -21,10 +21,11 @@ const (
 
 	outputDirpathOnGenerator = "/output"
 
-	gethGenesisFilename = "geth.json"
-	erigonGenesisFilename = "erigon.json"
+	gethGenesisFilename       = "geth.json"
+	erigonGenesisFilename     = "erigon.json"
 	nethermindGenesisFilename = "nethermind.json"
-	besuGenesisFilename = "besu.json"
+	besuGenesisFilename       = "besu.json"
+	auraGenesisFilename       = "aura_posdao.json"
 
 	jwtSecretFilename = "jwtsecret"
 
@@ -32,24 +33,24 @@ const (
 )
 
 type genesisGenerationConfigTemplateData struct {
-	NetworkId string
-	DepositContractAddress string
-	UnixTimestamp uint64
+	NetworkId               string
+	DepositContractAddress  string
+	UnixTimestamp           uint64
 	TotalTerminalDifficulty uint64
 }
 
-type genesisGenerationCmd func(genesisConfigFilepathOnGenerator string)[]string
+type genesisGenerationCmd func(genesisConfigFilepathOnGenerator string) []string
 
 // Mapping of output genesis filename -> generator to create the file
 var allGenesisGenerationCmds = map[string]genesisGenerationCmd{
-	gethGenesisFilename: func(genesisConfigFilepathOnGenerator string)[]string{
+	gethGenesisFilename: func(genesisConfigFilepathOnGenerator string) []string {
 		return []string{
 			"python3",
 			"/apps/el-gen/genesis_geth.py",
 			genesisConfigFilepathOnGenerator,
 		}
 	},
-	erigonGenesisFilename: func(genesisConfigFilepathOnGenerator string)[]string{
+	erigonGenesisFilename: func(genesisConfigFilepathOnGenerator string) []string {
 		return []string{
 			"python3",
 			// TODO Erigon uses the same genesis as Geth.
@@ -59,22 +60,30 @@ var allGenesisGenerationCmds = map[string]genesisGenerationCmd{
 			genesisConfigFilepathOnGenerator,
 		}
 	},
-	nethermindGenesisFilename: func(genesisConfigFilepathOnGenerator string)[]string{
+	nethermindGenesisFilename: func(genesisConfigFilepathOnGenerator string) []string {
 		return []string{
 			"python3",
 			"/apps/el-gen/genesis_chainspec.py",
 			genesisConfigFilepathOnGenerator,
 		}
 	},
-	besuGenesisFilename: func(genesisConfigFilepathOnGenerator string)[]string{
+	besuGenesisFilename: func(genesisConfigFilepathOnGenerator string) []string {
 		return []string{
 			"python3",
 			"/apps/el-gen/genesis_besu.py",
 			genesisConfigFilepathOnGenerator,
 		}
 	},
+	auraGenesisFilename: func(genesisConfigFilepathOnGenerator string) []string {
+		return []string{
+			"python3",
+			"/apps/el-gen/genesis_aura_posdao.py",
+			"--miningAddresses",
+			"0xb0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+			"0xb1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1",
+		}
+	},
 }
-
 
 func GenerateELGenesisData(
 	ctx context.Context,
@@ -198,6 +207,7 @@ func GenerateELGenesisData(
 		genesisFilenameToRelativeFilepathInArtifact[erigonGenesisFilename],
 		genesisFilenameToRelativeFilepathInArtifact[nethermindGenesisFilename],
 		genesisFilenameToRelativeFilepathInArtifact[besuGenesisFilename],
+		genesisFilenameToRelativeFilepathInArtifact[auraGenesisFilename],
 	)
 	return result, nil
 }

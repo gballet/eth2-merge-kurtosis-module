@@ -8,15 +8,16 @@ type ELGenesisData struct {
 	filesArtifactUuid services.FilesArtifactUUID
 
 	// Relative filepaths inside the files artifact where various files can be found
-	jwtSecretRelativeFilepath string
-	gethGenesisJsonRelativeFilepath string
-	erigonGenesisJsonRelativeFilepath string
+	jwtSecretRelativeFilepath             string
+	gethGenesisJsonRelativeFilepath       string
+	erigonGenesisJsonRelativeFilepath     string
 	nethermindGenesisJsonRelativeFilepath string
-	besuGenesisJsonRelativeFilepath string
+	besuGenesisJsonRelativeFilepath       string
+	auraGenesisJsonRelativeFilepath       string
 }
 
-func newELGenesisData(filesArtifactUuid services.FilesArtifactUUID, jwtSecretRelativeFilepath string, gethGenesisJsonRelativeFilepath string, erigonGenesisJsonRelativeFilepath string, nethermindGenesisJsonRelativeFilepath string, besuGenesisJsonRelativeFilepath string) *ELGenesisData {
-	return &ELGenesisData{filesArtifactUuid: filesArtifactUuid, jwtSecretRelativeFilepath: jwtSecretRelativeFilepath, gethGenesisJsonRelativeFilepath: gethGenesisJsonRelativeFilepath, erigonGenesisJsonRelativeFilepath: erigonGenesisJsonRelativeFilepath, nethermindGenesisJsonRelativeFilepath: nethermindGenesisJsonRelativeFilepath, besuGenesisJsonRelativeFilepath: besuGenesisJsonRelativeFilepath}
+func newELGenesisData(filesArtifactUuid services.FilesArtifactUUID, jwtSecretRelativeFilepath, gethGenesisJsonRelativeFilepath, erigonGenesisJsonRelativeFilepath, nethermindGenesisJsonRelativeFilepath, besuGenesisJsonRelativeFilepath, auraGenesisJsonRelativeFilepath string) *ELGenesisData {
+	return &ELGenesisData{filesArtifactUuid: filesArtifactUuid, jwtSecretRelativeFilepath: jwtSecretRelativeFilepath, gethGenesisJsonRelativeFilepath: gethGenesisJsonRelativeFilepath, erigonGenesisJsonRelativeFilepath: erigonGenesisJsonRelativeFilepath, nethermindGenesisJsonRelativeFilepath: nethermindGenesisJsonRelativeFilepath, besuGenesisJsonRelativeFilepath: besuGenesisJsonRelativeFilepath, auraGenesisJsonRelativeFilepath: auraGenesisJsonRelativeFilepath}
 }
 
 func (data *ELGenesisData) GetFilesArtifactUUID() services.FilesArtifactUUID {
